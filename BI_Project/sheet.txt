@@ -1,0 +1,250 @@
+
+###############################
+1)
+
+Group-Process : claim_dimension
+Structure :
+
+input : shipment_list --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    shipment_id,
+    sender_name,
+    sender_address,
+    receiver_name,
+    receiver_address,
+    CAST(shipment_weight AS NUMERIC) AS shipment_weight,
+    CAST(shipment_volume AS NUMERIC) AS shipment_volume,
+    shipment_type,
+    shipment_status,
+    departure_location,
+    arrival_location,
+    departure_date,
+    arrival_date,
+    CAST(transit_time AS NUMERIC) AS transit_time,
+    estimated_arrival_time,
+    CAST(distance_traveled AS NUMERIC) AS distance_traveled,
+    on_time_delivery,
+    CAST(freight_cost AS NUMERIC) AS freight_cost,
+    billing_status,
+    customer_feedback,
+    CAST(customer_rating AS NUMERIC) AS customer_rating
+FROM FLOWFILE
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(claim_dimension))
+
+
+
+####################################################                            
+
+
+
+###############################
+2)
+
+Group-Process : shipment_dimension
+Structure :
+
+input : Shipment --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    shipment_id,
+    sender_name,
+    sender_address,
+    receiver_name,
+    receiver_address,
+    CAST(shipment_weight AS NUMERIC) AS shipment_weight,
+    CAST(shipment_volume AS NUMERIC) AS shipment_volume,
+    shipment_type,
+    shipment_status,
+    departure_location,
+    arrival_location,
+    departure_date,
+    arrival_date,
+    CAST(transit_time AS NUMERIC) AS transit_time,
+    estimated_arrival_time,
+    CAST(distance_traveled AS NUMERIC) AS distance_traveled,
+    on_time_delivery,
+    CAST(freight_cost AS NUMERIC) AS freight_cost,
+    billing_status,
+    customer_feedback,
+    CAST(customer_rating AS NUMERIC) AS customer_rating
+FROM FLOWFILE
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(shipment_dimension))
+
+
+
+        ####################################################  
+
+
+###############################
+
+3)
+Group-Process : carrier_dimension
+Structure :
+
+input : Shipment --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+  carrier_id, 
+  carrier_name,
+  transport_mode
+FROM 
+  FLOWFILE
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(carrier_dimension))
+
+
+
+        ####################################################  
+
+###############################
+
+4)
+Group-Process : driving_dimension
+Structure :
+
+input : monthly_driving_list --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    id_driving,
+    CAST(month AS NUMERIC) AS month,
+    CAST(driving_time AS NUMERIC) AS driving_time,
+    CAST(traffic_violation_number AS NUMERIC) AS traffic_violation_number
+FROM FLOWFILE
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(driving_dimension))
+
+
+
+        ####################################################  
+
+###############################
+
+5)
+Group-Process : usage_dimension
+Structure :
+
+input : monthly_usage_list --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    id_usage,
+    CAST(month_month AS NUMERIC) AS month_month,
+    CAST(distance_traveled AS NUMERIC) AS distance_traveled,
+    CAST(mileage_end AS NUMERIC) AS mileage_end
+FROM FLOWFILE
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(usage_dimension))
+
+
+
+        ####################################################  
+###############################
+
+6)
+Group-Process : income_dimension
+Structure :
+
+input : monthly_usage_list --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    id_income,
+    CAST(month_month AS NUMERIC) AS month_month,
+    CAST(income_inome AS NUMERIC) AS income_inome
+FROM FLOWFILE
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(income_dimension))
+
+
+
+        ####################################################  
+
+
+####################################################
+7)
+Group-Process : cost_dimension
+Structure :
+
+input : monthly_costs_list --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT
+    id_cost,
+    CAST(month_month AS NUMERIC) AS month_month,
+    CAST(maintenance_mai AS NUMERIC) AS maintenance_mai,
+    CAST(fuel_cost AS NUMERIC) AS fuel_cost,
+    CAST(other_costs AS NUMERIC) AS other_costs,
+    CAST(total_cost AS NUMERIC) AS total_cost
+FROM flowfile
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(cost_dimension))
+
+
+
+        ####################################################  
+
+####################################################
+8)
+Group-Process : vehicule_dimension
+Structure :
+
+input : fleet_usage --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    vehicle_id, 
+    vehicle_type, 
+    mileage_start,
+    vehicle_make, 
+    vehicle_model, 
+    CAST(vehicle_year AS NUMERIC) AS vehicle_year, 
+    CAST(vehicle_capacity AS NUMERIC) AS vehicle_capacity, 
+    vehicle_fuel_type, 
+    license_plate, 
+    insurance_expiry, 
+    vehicle_status, 
+    CAST(utilization_rate AS NUMERIC) AS utilization_rate, 
+    CAST(idle_time AS NUMERIC) AS idle_time
+FROM FLOWFILE
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(vehicule_dimension))
+
+
+
+        ####################################################  
+
+
+####################################################
+9)
+Group-Process : driver_dimension
+Structure :
+
+input : fleet_usage --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    driver_id, 
+    driver_name, 
+    deliveries_completed, 
+    on_time_deliveries, 
+    driving_type, 
+    num_infractions,  
+    num_accidents
+FROM FLOWFILE
+
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(driver_dimension))
+
+
+
+        ####################################################  
+        
+
+####################################################
+10)
+Group-Process : fact_maintenance
+Structure :
+
+input : fleet_usage --- > QueryRecord : (CSV Reader,CSVRecordSetWriter) , request [SELECT 
+    vehicle_id,
+    id_maintenance,
+    date_date,
+    CAST(cost_maintenance AS NUMERIC) AS cost_maintenance
+FROM FLOWFILE
+
+] 
+
+                            ------ > (RecordReader:CSVReader,Table Name :(fact_maintenance))
+
+
+
+        ####################################################          

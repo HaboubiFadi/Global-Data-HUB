@@ -1,0 +1,33 @@
+Elasticsearch Storage Container
+
+##Overview##
+
+This Docker container serves as a storage component within the data streaming pipeline, responsible for persisting data received from the Kafka topics into an Elasticsearch cluster.
+
+##Functionality##
+
+    Consuming data from Kafka topics using consumer functions.
+    Establishing a connection to the Elasticsearch cluster.
+    Persisting incoming data into Elasticsearch indices without the need for explicit schema mapping.
+    Utilizing specific scripts for consuming Kafka messages and initiating necessary functions.
+
+##Process Description##
+
+    Kafka Message Consumption:
+        The container utilizes consumer functions within the kafka_functions.py script to consume messages from Kafka topics.
+        These functions subscribe to relevant Kafka topics and process incoming messages.
+
+    Elasticsearch Connection and Data Persistence:
+        Upon receiving messages from Kafka, the container establishes a connection to the Elasticsearch cluster.
+        Elasticsearch, being a schema-less database, does not require explicit schema mapping like relational databases. 
+        As a result, the container directly persists incoming data into Elasticsearch indices without predefined schemas.
+
+    Docker Configuration:
+        The Dockerfile for this container is structured to create an environment based on the required Python dependencies specified in requirements.txt.
+        Additional configurations are applied as needed to ensure the proper functioning of the container within the Docker environment.
+
+##Summary##
+
+This Docker container facilitates the storage of data received from Kafka topics into an Elasticsearch cluster.
+It employs specific scripts for consuming Kafka messages and establishing connections to Elasticsearch, allowing for seamless
+persistence of data into Elasticsearch indices without the need for explicit schema mapping.

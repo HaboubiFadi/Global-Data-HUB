@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  fastapi_app1:
+    image: docker.io/library/fast_api_endpoint
+    container_name: fastapi_app1
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+    networks:
+      - network_1    
+
+  fastapi_app2:
+    image: docker.io/library/fast_api_endpoint
+    container_name: fastapi_app2
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002"]
+    ports:
+      - "8002:8002"
+    environment:
+      - PORT=8002
+    networks:
+      - network_1    
+
+  fastapi_app3:
+    image: docker.io/library/fast_api_endpoint
+    container_name: fastapi_app3
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8003"]
+    ports:
+      - "8003:8003"
+    environment:
+      - PORT=8003
+    networks:
+      - network_1    
+  nginx:
+    container_name: nginx
+
+    image: docker.io/library/ngix_load_balancer
+    ports:
+      - "8080:80" 
+    depends_on:
+      - fastapi_app1
+      - fastapi_app2
+      - fastapi_app3     
+    networks:
+      - network_1  
+  postgres:
+      image: postgres:13
+      networks:
+      - network_1
+      environment:
+        POSTGRES_DB: postgres
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin
+        
+      volumes:
+      - ./data:/var/lib/postgresql/data
+      ports:
+        - 5432:5432
+networks:
+  network_1:
+    driver: bridge

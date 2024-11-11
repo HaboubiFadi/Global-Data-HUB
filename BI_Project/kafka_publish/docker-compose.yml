@@ -1,0 +1,18 @@
+version: '3.5'
+networks:
+    kafka:
+      name: rmoff_kafka
+      external: True
+services:
+  
+  kafka_publish:
+    build: ./ 
+    networks:
+      - kafka
+    
+  
+
+    
+
+
+
