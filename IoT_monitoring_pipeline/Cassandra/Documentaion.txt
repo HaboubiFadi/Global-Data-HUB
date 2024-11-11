@@ -1,0 +1,44 @@
+Cassandra Docker Image
+
+
+ ##Overview##
+
+This Docker image serves as a Cassandra node within the data streaming pipeline.
+ It provides a standalone instance of Cassandra for storing and managing data 
+ received from the Kafka topics.
+
+
+##Functionality##
+
+    *Hosting a standalone Cassandra instance configured with specified environment variables.
+    *Mounting a local volume for persistent storage of Cassandra data.
+    *Exposing the Cassandra RPC port for external access.
+
+##Process Description##
+
+    *Docker Compose Configuration:
+        The Docker Compose file defines a service named cas representing the Cassandra node.
+        The Cassandra node is based on the official cassandra:latest Docker image.
+
+    *Volumes:
+        The Docker Compose configuration mounts a local directory ./node1_cassandra to /var/lib/cassandra/data within the Cassandra container.
+        This volume allows Cassandra to persist its data, ensuring data durability even if the container is stopped or restarted.
+
+    *Ports:
+        The Cassandra RPC port 9042 is exposed from the container to the host system, allowing external clients to connect to Cassandra.
+
+    *Environment Variables:
+        *CASSANDRA_START_RPC=true: Indicates that the Cassandra node should start the RPC service to accept client connections.
+        *CASSANDRA_CLUSTER_NAME=MyCluster: Specifies the name of the Cassandra cluster.
+        *CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch: Configures the snitch for determining network topology and communication within the cluster.
+        *CASSANDRA_DC=datacenter1: Specifies the datacenter name for the Cassandra node.
+
+    *Network Configuration:
+        The Docker Compose file defines a network named kafka, which is marked as external.
+        The Cassandra node service is connected to this external network, enabling communication with other services in the data streaming pipeline.
+
+##Summary#
+
+This Docker image provides a standalone Cassandra node configured with environment variables for cluster identification and network communication. It utilizes volumes for persistent storage of Cassandra data and exposes the RPC port for external client connections. 
+The image is designed to be part of a larger data streaming pipeline, connected to the kafka network 
+for seamless communication with other services.

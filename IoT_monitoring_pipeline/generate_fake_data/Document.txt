@@ -1,0 +1,75 @@
+Dockerized Data Generation and MQTT Publishing Application
+
+
+## Overview
+
+This document provides an overview of the functionality and operation of the Docker image 
+containing a Python script for generating data and publishing it to an MQTT topic. 
+The script utilizes the threading library for scheduling tasks concurrently and 
+the paho-mqtt library for MQTT communication.
+
+
+
+# Functionality
+
+
+The Docker image encapsulates a Python script (script_generate.py) that performs the following tasks:
+
+    Data Generation: Generates random data of various types (e.g., strings, int)
+     using the generate_type function.
+
+    Publishing to MQTT Topic: Publishes the generated data to an MQTT topic
+     using the paho-mqtt library.
+
+    Concurrent Task Scheduling: Schedules data generation and publishing
+     tasks concurrently using the threading library.
+
+
+
+
+## Process Description
+
+    #Initialization:
+        The Docker image is built using the provided Dockerfile.
+        The Python script (script_generate.py) is copied into the image.
+
+    #Execution:
+        When a container is launched from the Docker image, the Python script (script_generate.py) is executed.
+
+    #Task Scheduling:
+        The script utilizes the threading library to schedule concurrent tasks for data generation and publishing.
+
+    #Data Generation:
+        Multiple instances of the generate_document function are executed concurrently using threading jobs.
+
+    #MQTT Publishing:
+        The generated data is published to an MQTT topic using the paho-mqtt library.
+
+## Task Scheduling with Threading
+
+The Python script utilizes the threading library to schedule concurrent tasks for data generation.
+This allows the script to generate and publish data concurrently, 
+maximizing efficiency and throughput.
+## Threading Jobs
+
+    Purpose: Schedule concurrent execution of tasks.
+    Functionality:
+        Creates multiple threads, each executing the generate_document function.
+        Allows for concurrent generation of data.
+
+# generate_document Function
+
+    Purpose: Generates data and publishes it to an MQTT topic.
+    Functionality:
+        Invokes the generate_type function to generate random data.
+        Publishes the generated data to an MQTT topic.
+    No parameters or return value.
+
+
+# generate_type Function:
+
+    Purpose: Generates random data of a specified type and length.
+    Parameters:
+        c_type (str): Type of data to generate ('s', 'int','reel','time'). # s if reference for string 
+        length (int): Length of the generated data.
+    Returns: Generated data of the specified type and length.

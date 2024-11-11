@@ -1,0 +1,34 @@
+Docker Compose Overview
+
+This Docker Compose file orchestrates multiple services for a data streaming and monitoring pipeline. It defines services for Prometheus, Alertmanager, Grafana, Zookeeper, Kafka broker, MongoDB, and PostgreSQL, all connected to an external Kafka network.
+Services Overview
+
+    *Prometheus: Collects metrics and monitors the system.
+    *Alertmanager: Handles alerts sent by Prometheus.
+    *Grafana: Visualizes and analyzes metrics.
+    *Zookeeper: Coordinates distributed applications.
+    *Kafka Broker: Handles the distributed streaming platform.
+    *MongoDB: NoSQL database for storing data.
+    *PostgreSQL: Relational database for storing data.
+
+#Notable Configuration##
+
+    *Zookeeper:
+        EXTRA_ARGS: Specifies additional Java agent options for monitoring with JMX exporter.
+
+    *Kafka Broker:
+        KAFKA_ADVERTISED_LISTENERS: Specifies the hostname and port the broker advertises to clients.
+        KAFKA_AUTO_CREATE_TOPICS_ENABLE: Enables auto-creation of topics.
+        KAFKA_OPTS: Specifies additional Java agent options for monitoring with JMX exporter.
+
+    *MongoDB:
+        MONGO_INITDB_ROOT_USERNAME, MONGO_INITDB_ROOT_PASSWORD: Credentials for initial database setup.
+        MONGO_INITDB_DATABASE: Specifies the initial database to be created.
+
+    *PostgreSQL:
+        POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD: Credentials and initial database setup.
+
+##Summary##
+
+This Docker Compose file configures a comprehensive environment for data streaming and monitoring, including services for data collection, storage, and visualization. Kafka is used as the messaging backbone, while MongoDB and PostgreSQL serve as storage solutions.
+Notable configurations include settings for monitoring with JMX exporter and initial database setup credentials for MongoDB and PostgreSQL.

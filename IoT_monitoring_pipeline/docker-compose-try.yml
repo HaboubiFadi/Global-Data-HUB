@@ -1,0 +1,18 @@
+version: '3.5'
+networks:
+    kafka:
+      name: rmoff_kafka
+      external: True
+services:
+  generate_image:
+    build: ./generate_fake_data
+    container_name : generate_image_2
+    environment:
+      
+      - client_name=client3
+    networks:
+      - kafka
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://localhost:5044"

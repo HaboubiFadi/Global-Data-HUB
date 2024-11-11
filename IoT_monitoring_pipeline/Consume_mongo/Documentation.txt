@@ -1,0 +1,33 @@
+##MongoDB Storage Container##
+
+##Overview##
+
+This Docker container serves as a storage component within the data streaming pipeline, responsible for persisting data received from the Kafka topics into a MongoDB database.
+
+##Functionality##
+
+    *Consuming data from Kafka topics using consumer functions.
+    *Establishing a connection to the MongoDB database.
+    *Persisting incoming data into MongoDB collections without the need for explicit schema mapping.
+    *Utilizing specific scripts for consuming Kafka messages and initiating necessary functions.
+
+##Process Description##
+
+    *Kafka Message Consumption:
+        The container utilizes consumer functions within the kafka_functions.py script to consume messages from Kafka topics.
+        These functions subscribe to relevant Kafka topics and process incoming messages.
+
+    *MongoDB Connection and Data Persistence:
+        Upon receiving messages from Kafka, the container establishes a connection to the MongoDB database.
+        MongoDB, being a document-oriented database, does not require explicit schema mapping like relational databases. As a result, the container directly persists incoming data into MongoDB collections without predefined schemas.
+
+    *Docker Configuration:
+        The Dockerfile for this container is structured to create an environment based on the required Python dependencies specified in requirements.txt.
+        Additional configurations are applied as needed to ensure the proper functioning of the container within the Docker environment.
+
+##Summary##
+
+This Docker container facilitates the storage of data received from Kafka topics into a MongoDB database. 
+It employs specific scripts for consuming Kafka messages and establishing 
+connections to MongoDB, allowing for seamless persistence of data into MongoDB 
+collections without the need for explicit schema mapping.

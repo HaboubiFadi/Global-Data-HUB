@@ -1,0 +1,32 @@
+version: '3.5'
+networks:
+    kafka:
+      name: rmoff_kafka
+      external: True
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+    networks: 
+      - kafka
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    ports:
+      - "19093:9093"
+    networks: 
+      - kafka
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    networks: 
+      - kafka
+
+volumes:
+  grafana-data:      

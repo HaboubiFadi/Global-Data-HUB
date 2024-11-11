@@ -1,0 +1,22 @@
+  
+version: '3.5'
+networks:
+    kafka:
+      name: rmoff_kafka
+      external: True
+services:  
+  mongodb:
+    image: mongo
+    networks:
+      - kafka
+        
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: observability
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb:/data/db
+      - ./mongodb/input/:/data/input/
+      - ./mongodb/mongod.conf:/etc/mongod.conf      

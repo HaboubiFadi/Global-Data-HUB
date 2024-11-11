@@ -1,0 +1,58 @@
+version: '3.5'
+networks:
+    kafka:
+      name: rmoff_kafka
+      external: True
+services:
+  mongodb:
+    image: mongo
+    networks:
+      - kafka
+        
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: observability
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb:/data/db
+      - ./mongodb/input/:/data/input/
+      - ./mongodb/mongod.conf:/etc/mongod.conf  
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.5.0
+    container_name: zookeeper
+    networks: 
+      - kafka
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      EXTRA_ARGS: -javaagent:/usr/share/jmx_exporter/jmx_prometheus_javaagent-0.20.0.jar=9200:/usr/share/jmx_exporter/zookeeper.yml
+
+    restart: always   
+    volumes:
+      - ./jmx-exporter:/usr/share/jmx_exporter/
+  
+
+  broker:
+    image: confluentinc/cp-kafka:5.5.0
+    container_name: broker
+    ports:
+     - "9092:9092"  # Kafka port
+     - "8779:8779"  # JMX port   
+     - "9101:9101"
+    networks: 
+      - kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      #KAFKA_OPTS: -javaagent:/usr/share/jmx_exporter/jmx_prometheus_javaagent-0.20.0.jar=9200:/usr/share/jmx_exporter/kafka-broker.yml
+      KAFKA_OPTS: '-javaagent:opt/jolokia/jolokia-jvm-1.7.2.jar=host=localhost,port=8779'
+    volumes: 
+      - ./jolokia:/opt/jolokia/
+    restart: always
+    

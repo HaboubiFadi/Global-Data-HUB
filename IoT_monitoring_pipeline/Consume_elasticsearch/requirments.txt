@@ -1,0 +1,4 @@
+paho-mqtt
+confluent_kafka
+pandas
+elasticsearch==8.12.0

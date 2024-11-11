@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  logstash:
+    image: logstach_img
+    container_name: logstash_container
+    ports:
+      - "5044:5044"
+    networks:
+      - kafka
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+
+networks:
+    kafka:
+      name: rmoff_kafka
+      external: True

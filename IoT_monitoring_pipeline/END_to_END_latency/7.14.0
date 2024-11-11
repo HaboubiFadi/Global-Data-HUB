@@ -1,0 +1,4 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: elasticsearch in /home/haboubi/.local/lib/python3.10/site-packages (7.14.0)
+Requirement already satisfied: urllib3<2,>=1.21.1 in /usr/lib/python3/dist-packages (from elasticsearch) (1.26.5)
+Requirement already satisfied: certifi in /usr/lib/python3/dist-packages (from elasticsearch) (2020.6.20)

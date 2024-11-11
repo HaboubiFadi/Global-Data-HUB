@@ -1,0 +1,26 @@
+
+##Overview##
+
+This Docker Compose file configures an MQTT broker (eclipse-mosquitto) and a custom MQTT exporter. The exporter connects to MQTT topics and publishes metrics to Prometheus for monitoring.
+Services Overview
+
+    *mqtt5 (eclipse-mosquitto): MQTT broker for messaging.
+    *mqtt_exporter: Custom MQTT exporter for collecting metrics from MQTT topics and publishing them to Prometheus.
+
+##Notable Configuration##
+
+    *mqtt5 (eclipse-mosquitto):
+        *image: Specifies the Docker image for the MQTT broker.
+        *container_name: Names the container as "mqtt5".
+        *ports: Maps MQTT ports 1883 and 9001 for both MQTT and MQTT over Websockets.
+        *volumes: Maps configuration, data, and log directories for the MQTT broker.
+        *restart: Specifies the restart policy for the container.
+
+    *mqtt_exporter:
+        build: Specifies the path to the Dockerfile for building the custom MQTT exporter.
+        depends_on: Specifies that the exporter depends on the MQTT broker service to be available before starting.
+
+##Summary
+
+This Docker Compose file sets up an MQTT messaging environment with an eclipse-mosquitto broker and a custom MQTT exporter. The exporter connects to MQTT topics, collects metrics, and publishes them to Prometheus for monitoring. Configuration, data, and log directories are mapped for persistence. 
+Additionally, the services are connected to an external Kafka network for communication.

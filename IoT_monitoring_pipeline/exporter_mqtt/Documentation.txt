@@ -1,0 +1,19 @@
+MQTT Exporter
+
+##Overview##
+
+The MQTT Exporter service in this Docker Compose file is a custom exporter responsible for collecting
+metrics from MQTT topics and publishing them to Prometheus for monitoring purposes.
+
+##Functionality##
+
+    *Connects to MQTT topics within the MQTT broker.
+    *Collects metrics related to MQTT messages, connections, and other relevant statistics from the $SYS/# topic.
+    *Publishes collected metrics in a format compatible with Prometheus for monitoring and alerting.
+
+
+##Summary##
+
+The MQTT Exporter service complements the MQTT broker (eclipse-mosquitto) by collecting metrics
+related to MQTT messaging and connections from the $SYS/# topic. It integrates seamlessly with 
+Prometheus for monitoring and alerting purposes, ensuring visibility into the MQTT messaging environment's performance and health.

@@ -1,0 +1,40 @@
+##Overview##
+
+
+This Docker container serves as a storage component within the data streaming pipeline, responsible 
+for persisting data received from the Kafka topics into a specific database management system (DBMS).
+In this case, it focuses on storing data into a Cassandra cluster.
+
+
+##Functionality##
+
+The primary functionality of this Docker container includes:
+
+    Consuming data from Kafka topics using consumer functions.
+    Initiating a connection to the Cassandra cluster and creating a session.
+    Mapping incoming data to the Cassandra schema and persisting it into the database.
+    Utilizing an Object-Relational Mapping (ORM) tool to facilitate the interaction with Cassandra.
+    Employing specific scripts for consuming Kafka messages and initiating necessary functions.
+
+##Process Description##
+
+    *Kafka Message Consumption:
+        The container utilizes consumer functions within the kafka_functions.py script to consume messages from Kafka topics.
+        These functions subscribe to relevant Kafka topics and process incoming messages.
+
+    *Cassandra Connection and Session:
+        The container establishes a connection to the Cassandra cluster using the Cassandra.py script.
+        Within the Cassandra.py script, a Python class initiates the connection to the Cassandra cluster and creates a session for database interactions.
+
+    *Data Mapping and Persistence:
+        Incoming data from Kafka topics is mapped to the Cassandra schema defined in the IoT_instance.py file.
+        The IoT_instance class defined in IoT_instance.py represents the schema for an IoT device entity, including attributes such as id, Adresse, Mileage, Fuel_level, Speed, Longitude, and Timestamp.
+        Utilizing the cassandra.cqlengine library, the container persists the mapped data into the Cassandra cluster, ensuring compatibility with the defined schema.
+
+    *Docker Configuration:
+        The Dockerfile for this container is structured to create an environment based on the required Python dependencies specified in requirements.txt.
+        Additional configurations are applied as needed to ensure the proper functioning of the container within the Docker environment.
+
+##Summary##
+
+This Docker container facilitates the storage of data received from Kafka topics into a Cassandra cluster. It employs specific scripts for consuming Kafka messages, initiating connections to Cassandra, mapping data to the Cassandra schema defined in IoT_instance.py, and persisting data into the database using the cassandra.cqlengine library. The container's configuration is specified in a Dockerfile, and Python dependencies are managed using a requirements.txt file.

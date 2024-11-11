@@ -1,0 +1,46 @@
+version: '3.5'
+networks:
+    kafka:
+      name: rmoff_kafka
+      external: True
+services:
+  
+  consume_mqtt:
+    build: ./consume_mqtt_produce_kakfa 
+    networks:
+      - kafka
+  consume_kafka_elastic:
+    build: ./Consume_elasticsearch
+    networks:
+      - kafka
+  generate_image_1:
+    build: ./generate_fake_data
+    container_name: generate_image_1
+
+    environment:
+      
+      - client_name=client1
+    networks:
+      - kafka 
+
+  generate_image:
+    build: ./generate_fake_data
+    container_name : generate_image_2
+    environment:
+      
+      - client_name=client3
+    networks:
+      - kafka        
+  consume_kafka_mongo:
+    build: ./Consume_mongo
+    networks:
+      - kafka
+  consume_kafka_cassandra:
+    build: ./Consume_cassandra
+    networks:
+      - kafka
+
+    
+
+
+
